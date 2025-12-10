@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Ingredient, SimulationResult, SavedRecipe, SelectedIngredient, SuggestedAction } from './types';
 import { INGREDIENTS } from './constants';
-import { analyzeSmoothie, analyzeImageForIngredients } from './services/geminiService';
+import { analyzeSmoothie, analyzeImageForIngredients, AnalysisContext } from './services/geminiService';
 import { Pantry } from './components/Pantry';
 import { Blender } from './components/Blender';
 import { ResultCard } from './components/ResultCard';
@@ -89,6 +89,9 @@ const App: React.FC = () => {
   // Local Storage State
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
   const [isRecipeSaved, setIsRecipeSaved] = useState(false);
+
+  // Analysis context for score consistency
+  const [analysisContext, setAnalysisContext] = useState<AnalysisContext | undefined>(undefined);
 
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
@@ -219,31 +222,58 @@ const App: React.FC = () => {
   };
 
   const handleFixAction = (action: SuggestedAction) => {
+    // Store context for next analysis
+    const ingredientName = selectedIngredients.find(i => i.id === action.ingredientId)?.name || action.ingredientId;
+    const currentScore = result?.bioScore;
+
+    if (currentScore !== undefined) {
+      setAnalysisContext({
+        previousScore: currentScore,
+        appliedAction: {
+          type: action.type,
+          ingredientName: action.type === 'add' ? action.label.replace('Add ', '') : ingredientName,
+          expectedImpact: action.scoreImpact || '+1.0'
+        }
+      });
+    }
+
     if (action.type === 'remove') {
       handleRemoveIngredient(action.ingredientId);
     } else if (action.type === 'add') {
-      handleInitiateAdd(action.ingredientId);
-    } else if (action.type === 'swap') {
-      // 1. Remove the bad item
-      const filtered = selectedIngredients.filter(i => i.id !== action.ingredientId);
+      // Direct Add (Bypass Modal)
+      // AI might return 'lemon' (ID) or 'Lemon' (Name)
+      const matchId = action.ingredientId.toLowerCase().replace(/ /g, '_');
+      const found = INGREDIENTS.find(i => i.id === matchId || i.name.toLowerCase() === action.ingredientId.toLowerCase())
+        || INGREDIENTS.find(i => action.label.toLowerCase().includes(i.name.toLowerCase()));
 
-      // 2. Identify replacement (AI gives text usually, we try to match an ID, or just remove if we can't find it)
-      // Ideally the AI returns the specific ingredientId of the replacement in a separate field or we search for it.
-      // Since our prompt schema for 'replacement' is just a string name, we try to find it in constants.
+      if (found) {
+        const defaultUnit = ['liquid', 'base'].includes(found.type) ? 'cup' : 'item';
+        const defaultQty = defaultUnit === 'cup' ? 1 : 1;
+
+        const newIng: SelectedIngredient = { ...found, quantity: defaultQty, unit: defaultUnit };
+        updateIngredients([...selectedIngredients, newIng]);
+
+        setResult(null);
+        setIsRecipeSaved(false);
+        setShowServingModal(false);
+      } else {
+        console.warn("Could not find ingredient to add:", action.ingredientId);
+      }
+
+    } else if (action.type === 'swap') {
+      const filtered = selectedIngredients.filter(i => i.id !== action.ingredientId);
 
       let newIngredients = filtered;
 
       if (action.replacement) {
         const replacementName = action.replacement.toLowerCase();
-        const foundReplacement = INGREDIENTS.find(i =>
-          i.name.toLowerCase().includes(replacementName) ||
-          replacementName.includes(i.name.toLowerCase()) ||
-          i.id === replacementName
-        );
+        // Try exact ID match first, then name partial match
+        const foundReplacement = INGREDIENTS.find(i => i.id === replacementName) ||
+          INGREDIENTS.find(i => i.name.toLowerCase().includes(replacementName) || replacementName.includes(i.name.toLowerCase()));
 
         if (foundReplacement) {
-          // Add replacement with default quantity
-          newIngredients = [...filtered, { ...foundReplacement, quantity: 1, unit: 'item' }];
+          const defaultUnit = ['liquid', 'base'].includes(foundReplacement.type) ? 'cup' : 'item';
+          newIngredients = [...filtered, { ...foundReplacement, quantity: 1, unit: defaultUnit }];
         }
       }
 
@@ -266,7 +296,9 @@ const App: React.FC = () => {
 
     try {
       // Pass the full ingredient objects to get quantity data for energy calculation
-      const simulationResult = await analyzeSmoothie(selectedIngredients);
+      const simulationResult = await analyzeSmoothie(selectedIngredients, analysisContext);
+      // Clear context after use
+      setAnalysisContext(undefined);
 
       setTimeout(() => {
         setResult(simulationResult);
@@ -423,10 +455,15 @@ const App: React.FC = () => {
         className="hidden"
       />
 
-      <div className="w-full max-w-md flex flex-col items-center text-center mb-6 pt-8">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-6 flex items-center gap-2">
-          🥗 EATWISE LABS
-        </h1>
+      <div className="w-full max-w-md flex flex-col items-center text-center mb-6 pt-6">
+        <div className="mb-6 flex flex-col items-center">
+          <img
+            src="/logo.png"
+            alt="EatWise Labs"
+            className="h-24 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-500"
+          />
+          {/* <p className="text-xs text-gray-400 font-medium mt-2 uppercase tracking-widest opacity-80">AI Nutrition Analyzer</p> */}
+        </div>
 
         <form onSubmit={handleGenerateIngredients} className="w-full relative group z-30">
           <div className="flex items-center bg-white p-2 rounded-full shadow-lg border border-gray-200 transition-shadow focus-within:shadow-xl focus-within:border-green-400">
@@ -602,9 +639,7 @@ const App: React.FC = () => {
 
       </main>
 
-      <div className="fixed bottom-4 right-4 text-[10px] text-gray-300 font-medium uppercase tracking-widest">
-        Powered by Gemini 2.5 Flash
-      </div>
+
     </div>
   );
 };

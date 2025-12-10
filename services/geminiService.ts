@@ -14,10 +14,10 @@ const FALLBACK_RESULTS: Record<string, SimulationResult> = {
     nutrients: ["Fiber", "Vitamins"],
     recommendation: "Try adding some Vitamin C to boost absorption.",
     suggestedAction: {
-        type: 'add',
-        ingredientId: 'lemon',
-        label: "Add Lemon",
-        scoreImpact: "+1.5"
+      type: 'add',
+      ingredientId: 'lemon',
+      label: "Add Lemon",
+      scoreImpact: "+1.5"
     },
     energyData: {
       calories: 250,
@@ -29,11 +29,35 @@ const FALLBACK_RESULTS: Record<string, SimulationResult> = {
   }
 };
 
-export const analyzeSmoothie = async (ingredients: SelectedIngredient[]): Promise<SimulationResult> => {
+export interface AnalysisContext {
+  previousScore?: number;
+  appliedAction?: {
+    type: 'add' | 'remove' | 'swap';
+    ingredientName: string;
+    expectedImpact: string;
+  };
+}
+
+export const analyzeSmoothie = async (
+  ingredients: SelectedIngredient[],
+  context?: AnalysisContext
+): Promise<SimulationResult> => {
   try {
-    const apiKey = process.env.API_KEY;
+    // enhanced key retrieval for Vite context
+    // @ts-ignore - Vite types might be missing
+    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
+
     if (!apiKey) {
-      console.warn("No API_KEY found in process.env. Using simulation fallback.");
+      console.warn("⚠️ NO API KEY DETECTED");
+      return {
+        ...FALLBACK_RESULTS["default"],
+        recipeName: "Configuration Error",
+        description: "API Key is missing. Please check your .env.local file and ensure VITE_GEMINI_API_KEY is set.",
+        bioScore: 0,
+        recommendation: "System Error: No API Key found."
+      };
+    } else {
+      console.log("✅ Analysis Service initialized with API Key");
     }
 
     const ai = new GoogleGenAI({ apiKey: apiKey });
@@ -46,9 +70,21 @@ export const analyzeSmoothie = async (ingredients: SelectedIngredient[]): Promis
       return `- ${ing.name} (Qty: ${ing.quantity} ${ing.unit}) [${primaryNutrient}] [${clashInfo}]`;
     }).join('\n');
 
+    // Build context section if previous analysis exists
+    let contextSection = '';
+    if (context?.previousScore !== undefined && context?.appliedAction) {
+      contextSection = `
+      IMPORTANT CONTEXT:
+      The user just followed your previous recommendation. Their previous bio-score was ${context.previousScore}.
+      Action taken: ${context.appliedAction.type.toUpperCase()} "${context.appliedAction.ingredientName}" (expected impact: ${context.appliedAction.expectedImpact}).
+      
+      You MUST factor this improvement into your new score. If the action was beneficial and no new clashes were introduced, the new score should reflect the expected improvement (approximately ${context.appliedAction.expectedImpact} points higher than ${context.previousScore}).
+      `;
+    }
+
     const prompt = `
       You are an expert Molecular Nutritionist. Analyze this smoothie blend based on the specific quantities provided.
-      
+      ${contextSection}
       Ingredients:
       ${richData}
       
@@ -120,19 +156,19 @@ export const analyzeSmoothie = async (ingredients: SelectedIngredient[]): Promis
       let jsonString = response.text;
       // Clean up markdown if present (e.g. ```json ... ```)
       jsonString = jsonString.replace(/```json\n?|```/g, "").trim();
-      
+
       try {
         const result = JSON.parse(jsonString) as SimulationResult;
-        
+
         // Extract Grounding Metadata (Sources)
         const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
         if (groundingChunks) {
-            result.sources = groundingChunks
-                .map(chunk => ({
-                    title: chunk.web?.title || "Verified Source",
-                    uri: chunk.web?.uri
-                }))
-                .filter(source => source.uri) as { title: string; uri: string }[];
+          result.sources = groundingChunks
+            .map(chunk => ({
+              title: chunk.web?.title || "Verified Source",
+              uri: chunk.web?.uri
+            }))
+            .filter(source => source.uri) as { title: string; uri: string }[];
         }
 
         return result;
@@ -142,26 +178,33 @@ export const analyzeSmoothie = async (ingredients: SelectedIngredient[]): Promis
         return FALLBACK_RESULTS["default"];
       }
     }
-    
+
     throw new Error("Empty response from Gemini");
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini analysis failed:", error);
-    return FALLBACK_RESULTS["default"];
+    return {
+      ...FALLBACK_RESULTS["default"],
+      recipeName: "Analysis Failed",
+      description: `Error: ${error.message || "Unknown API Error"}. Please check your API key and quota.`,
+      bioScore: 0,
+      recommendation: "Try again later."
+    };
   }
 };
 
 export const analyzeImageForIngredients = async (base64Image: string): Promise<string[]> => {
-    try {
-        const apiKey = process.env.API_KEY;
-        if (!apiKey) return [];
+  try {
+    // @ts-ignore
+    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
+    if (!apiKey) return [];
 
-        const ai = new GoogleGenAI({ apiKey: apiKey });
+    const ai = new GoogleGenAI({ apiKey: apiKey });
 
-        const inventory = INGREDIENTS.map(i => ({ id: i.id, name: i.name }));
-        const inventoryString = JSON.stringify(inventory);
+    const inventory = INGREDIENTS.map(i => ({ id: i.id, name: i.name }));
+    const inventoryString = JSON.stringify(inventory);
 
-        const prompt = `
+    const prompt = `
             Analyze this image of groceries. 
             Identify which of the following known ingredients are present in the image.
             
@@ -176,38 +219,38 @@ export const analyzeImageForIngredients = async (base64Image: string): Promise<s
             5. If nothing is found, return empty array.
         `;
 
-        const imagePart = {
-            inlineData: {
-                data: base64Image,
-                mimeType: "image/jpeg"
-            }
-        };
+    const imagePart = {
+      inlineData: {
+        data: base64Image,
+        mimeType: "image/jpeg"
+      }
+    };
 
-        // Note: gemini-3-pro-preview is required for image analysis
-        const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview',
-            contents: {
-                parts: [
-                    imagePart,
-                    { text: prompt }
-                ]
-            }
-        });
-        
-        if (response.text) {
-             let jsonString = response.text.replace(/```json\n?|```/g, "").trim();
-             try {
-                const data = JSON.parse(jsonString);
-                return data.foundIds || [];
-             } catch (e) {
-                 console.error("Failed to parse image analysis JSON", e);
-                 return [];
-             }
-        }
-        return [];
+    // Note: gemini-3-pro-preview is required for image analysis
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
+      contents: {
+        parts: [
+          imagePart,
+          { text: prompt }
+        ]
+      }
+    });
 
-    } catch (e) {
-        console.error("Image analysis failed", e);
+    if (response.text) {
+      let jsonString = response.text.replace(/```json\n?|```/g, "").trim();
+      try {
+        const data = JSON.parse(jsonString);
+        return data.foundIds || [];
+      } catch (e) {
+        console.error("Failed to parse image analysis JSON", e);
         return [];
+      }
     }
+    return [];
+
+  } catch (e) {
+    console.error("Image analysis failed", e);
+    return [];
+  }
 }
