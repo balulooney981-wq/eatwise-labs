@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Ingredient, SimulationResult, SavedRecipe, SelectedIngredient, SuggestedAction } from './types';
-import { INGREDIENTS } from './constants';
+import { INGREDIENTS, SALAD_INGREDIENTS } from './constants';
 import { analyzeSmoothie, analyzeImageForIngredients, AnalysisContext } from './services/geminiService';
 import { Pantry } from './components/Pantry';
 import { Blender } from './components/Blender';
@@ -18,12 +18,17 @@ interface HistoryState<T> {
 }
 
 const App: React.FC = () => {
+  const [appMode, setAppMode] = useState<'smoothie' | 'salad'>('smoothie'); // Default to smoothie
+
   // History State for Undo/Redo
   const [history, setHistory] = useState<HistoryState<SelectedIngredient[]>>({
     past: [],
     present: [],
     future: []
   });
+
+  // Derived state for data source
+  const activeIngredientsList = appMode === 'salad' ? SALAD_INGREDIENTS : INGREDIENTS;
 
   // Derived state for compatibility with existing code
   const selectedIngredients = history.present;
@@ -170,11 +175,11 @@ const App: React.FC = () => {
 
   // Step 1: User clicks an ingredient -> Open Modal
   const handleInitiateAdd = useCallback((ingredientId: string) => {
-    const ingredient = INGREDIENTS.find(i => i.id === ingredientId);
+    const ingredient = activeIngredientsList.find(i => i.id === ingredientId);
     if (ingredient && !selectedIngredients.some(i => i.id === ingredientId)) {
       setPendingIngredient(ingredient);
     }
-  }, [selectedIngredients]);
+  }, [selectedIngredients, activeIngredientsList]);
 
   // Drop is alias for Add
   const handleDrop = handleInitiateAdd;
@@ -296,7 +301,7 @@ const App: React.FC = () => {
 
     try {
       // Pass the full ingredient objects to get quantity data for energy calculation
-      const simulationResult = await analyzeSmoothie(selectedIngredients, analysisContext);
+      const simulationResult = await analyzeSmoothie(selectedIngredients, analysisContext, appMode);
       // Clear context after use
       setAnalysisContext(undefined);
 
@@ -457,12 +462,29 @@ const App: React.FC = () => {
 
       <div className="w-full max-w-md flex flex-col items-center text-center mb-6 pt-6">
         <div className="mb-6 flex flex-col items-center">
-          <img
-            src="/logo.png"
-            alt="EatWise Labs"
-            className="h-24 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform duration-500"
-          />
-          {/* <p className="text-xs text-gray-400 font-medium mt-2 uppercase tracking-widest opacity-80">AI Nutrition Analyzer</p> */}
+          <div className="bg-white p-3 rounded-2xl shadow-sm mb-2">
+            <img
+              src="/logo.png"
+              alt="EatWise Labs"
+              className="h-20 w-auto object-contain hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="flex bg-gray-100 p-1 rounded-full mt-4 shadow-inner">
+            <button
+              onClick={() => setAppMode('smoothie')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${appMode === 'smoothie' ? 'bg-white text-green-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+            >
+              🥤 Smoothie
+            </button>
+            <button
+              onClick={() => setAppMode('salad')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${appMode === 'salad' ? 'bg-white text-green-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+            >
+              🥗 Salad
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleGenerateIngredients} className="w-full relative group z-30">
@@ -540,18 +562,16 @@ const App: React.FC = () => {
       </div>
 
       {/* View Switching: SmoothieBuilder OR Pantry */}
-      {showPantryView ? (
-        <section className="w-full max-w-6xl mb-8 animate-in fade-in zoom-in-95 duration-300">
-          <Pantry
-            ingredients={shelfIngredients}
-            selectedIngredients={selectedIngredients}
-            onAdd={handleInitiateAdd}
-          />
-        </section>
+      {!showPantryView ? (
+        <div className="absolute top-0 left-0 w-full z-30 px-4">
+          {/* Mobile header area */}
+        </div>
       ) : (
         <SmoothieBuilder
           selectedIngredients={selectedIngredients}
           onAdd={handleInitiateAdd}
+          ingredientsList={activeIngredientsList}
+          mode={appMode}
         />
       )}
 
@@ -590,6 +610,7 @@ const App: React.FC = () => {
             onClear={handleClearAll}
             isBlending={isBlending}
             onBlend={handleBlend}
+            mode={appMode}
           />
           {error && (
             <div className="mt-4 p-3 bg-red-50 text-red-600 text-xs rounded-lg border border-red-100 max-w-xs text-center animate-pulse">

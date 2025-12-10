@@ -3,52 +3,52 @@ import { Ingredient } from './types';
 
 export const INGREDIENTS: Ingredient[] = [
   // GREENS & VEGGIES
-  { 
-    id: 'spinach', 
-    name: 'Spinach', 
-    emoji: '🥬', 
-    type: 'green', 
-    color: 'bg-green-200', 
+  {
+    id: 'spinach',
+    name: 'Spinach',
+    emoji: '🥬',
+    type: 'green',
+    color: 'bg-green-200',
     keywords: ['greens', 'leafy'],
     primaryNutrient: 'Iron',
     clashList: ['espresso', 'matcha']
   },
-  { 
-    id: 'kale', 
-    name: 'Kale', 
-    emoji: '🥦', 
-    type: 'green', 
-    color: 'bg-green-300', 
+  {
+    id: 'kale',
+    name: 'Kale',
+    emoji: '🥦',
+    type: 'green',
+    color: 'bg-green-300',
     keywords: ['greens', 'leafy'],
     primaryNutrient: 'Vitamin K',
     clashList: []
   },
-  { 
-    id: 'cucumber', 
-    name: 'Cucumber', 
-    emoji: '🥒', 
-    type: 'veggie', 
-    color: 'bg-green-100', 
+  {
+    id: 'cucumber',
+    name: 'Cucumber',
+    emoji: '🥒',
+    type: 'veggie',
+    color: 'bg-green-100',
     keywords: ['cuke', 'hydration'],
     primaryNutrient: 'Hydration',
     clashList: ['strawberries', 'orange', 'lemon']
   },
-  { 
-    id: 'carrot', 
-    name: 'Carrot', 
-    emoji: '🥕', 
-    type: 'veggie', 
-    color: 'bg-orange-200', 
+  {
+    id: 'carrot',
+    name: 'Carrot',
+    emoji: '🥕',
+    type: 'veggie',
+    color: 'bg-orange-200',
     keywords: ['root', 'beta'],
     primaryNutrient: 'Beta Carotene',
     clashList: []
   },
-  { 
-    id: 'beetroot', 
-    name: 'Beetroot', 
-    emoji: '❤️', 
-    type: 'veggie', 
-    color: 'bg-red-200', 
+  {
+    id: 'beetroot',
+    name: 'Beetroot',
+    emoji: '❤️',
+    type: 'veggie',
+    color: 'bg-red-200',
     keywords: ['beets', 'root', 'nitrate'],
     primaryNutrient: 'Nitrates',
     clashList: []
@@ -75,102 +75,102 @@ export const INGREDIENTS: Ingredient[] = [
   },
 
   // FRUITS
-  { 
-    id: 'avocado', 
-    name: 'Avocado', 
-    emoji: '🥑', 
+  {
+    id: 'avocado',
+    name: 'Avocado',
+    emoji: '🥑',
     type: 'fruit',
-    color: 'bg-green-100', 
+    color: 'bg-green-100',
     keywords: ['avo', 'fat', 'creamy'],
     primaryNutrient: 'Healthy Fats',
     clashList: []
   },
-  { 
-    id: 'banana', 
-    name: 'Banana', 
-    emoji: '🍌', 
-    type: 'fruit', 
-    color: 'bg-yellow-100', 
+  {
+    id: 'banana',
+    name: 'Banana',
+    emoji: '🍌',
+    type: 'fruit',
+    color: 'bg-yellow-100',
     keywords: ['frozen banana', 'potassium'],
     primaryNutrient: 'Potassium',
     clashList: []
   },
-  { 
-    id: 'blueberries', 
-    name: 'Blueberries', 
-    emoji: '🫐', 
-    type: 'antioxidant', 
-    color: 'bg-blue-100', 
+  {
+    id: 'blueberries',
+    name: 'Blueberries',
+    emoji: '🫐',
+    type: 'antioxidant',
+    color: 'bg-blue-100',
     keywords: ['berries', 'berry'],
     primaryNutrient: 'Anthocyanins',
     clashList: ['milk']
   },
-  { 
-    id: 'strawberries', 
-    name: 'Strawberries', 
-    emoji: '🍓', 
-    type: 'fruit', 
-    color: 'bg-red-100', 
+  {
+    id: 'strawberries',
+    name: 'Strawberries',
+    emoji: '🍓',
+    type: 'fruit',
+    color: 'bg-red-100',
     keywords: ['berry', 'red'],
     primaryNutrient: 'Vitamin C',
     clashList: ['cucumber']
   },
-  { 
-    id: 'mango', 
-    name: 'Mango', 
-    emoji: '🥭', 
-    type: 'fruit', 
-    color: 'bg-yellow-300', 
+  {
+    id: 'mango',
+    name: 'Mango',
+    emoji: '🥭',
+    type: 'fruit',
+    color: 'bg-yellow-300',
     keywords: ['tropical', 'sweet'],
     primaryNutrient: 'Vitamin A',
     clashList: []
   },
-  { 
-    id: 'pineapple', 
-    name: 'Pineapple', 
-    emoji: '🍍', 
-    type: 'fruit', 
-    color: 'bg-yellow-200', 
+  {
+    id: 'pineapple',
+    name: 'Pineapple',
+    emoji: '🍍',
+    type: 'fruit',
+    color: 'bg-yellow-200',
     keywords: ['tropical', 'bromelain'],
     primaryNutrient: 'Bromelain',
     clashList: ['milk', 'yogurt', 'protein_powder', 'collagen']
   },
-  { 
-    id: 'apple', 
-    name: 'Apple', 
-    emoji: '🍎', 
-    type: 'fruit', 
-    color: 'bg-red-200', 
+  {
+    id: 'apple',
+    name: 'Apple',
+    emoji: '🍎',
+    type: 'fruit',
+    color: 'bg-red-200',
     keywords: ['fiber', 'sweet'],
     primaryNutrient: 'Pectin (Fiber)',
     clashList: []
   },
-  { 
-    id: 'orange', 
-    name: 'Orange', 
-    emoji: '🍊', 
-    type: 'acid', 
-    color: 'bg-orange-100', 
+  {
+    id: 'orange',
+    name: 'Orange',
+    emoji: '🍊',
+    type: 'acid',
+    color: 'bg-orange-100',
     keywords: ['citrus', 'vit c'],
     primaryNutrient: 'Vitamin C',
     clashList: ['milk', 'yogurt', 'mint']
   },
-  { 
-    id: 'lemon', 
-    name: 'Lemon', 
-    emoji: '🍋', 
-    type: 'acid', 
-    color: 'bg-yellow-200', 
+  {
+    id: 'lemon',
+    name: 'Lemon',
+    emoji: '🍋',
+    type: 'acid',
+    color: 'bg-yellow-200',
     keywords: ['citrus', 'sour'],
     primaryNutrient: 'Vitamin C',
     clashList: ['milk', 'yogurt']
   },
-  { 
-    id: 'acai', 
-    name: 'Acai Berry', 
-    emoji: '🟣', 
-    type: 'antioxidant', 
-    color: 'bg-purple-800', 
+  {
+    id: 'acai',
+    name: 'Acai Berry',
+    emoji: '🟣',
+    type: 'antioxidant',
+    color: 'bg-purple-800',
     keywords: ['superfood', 'berry', 'bowl'],
     primaryNutrient: 'Anthocyanins',
     clashList: ['milk']
@@ -247,52 +247,52 @@ export const INGREDIENTS: Ingredient[] = [
   },
 
   // BASES & LIQUIDS
-  { 
-    id: 'milk', 
-    name: 'Cow Milk', 
-    emoji: '🥛', 
-    type: 'base', 
-    color: 'bg-blue-50', 
+  {
+    id: 'milk',
+    name: 'Cow Milk',
+    emoji: '🥛',
+    type: 'base',
+    color: 'bg-blue-50',
     keywords: ['dairy', 'calcium'],
     primaryNutrient: 'Calcium',
     clashList: ['lemon', 'orange', 'pineapple', 'cocoa', 'acai', 'blueberries', 'kiwi', 'papaya', 'pomegranate', 'guava']
   },
-  { 
-    id: 'almond_milk', 
-    name: 'Almond Milk', 
-    emoji: '🌰', 
-    type: 'liquid', 
-    color: 'bg-stone-100', 
+  {
+    id: 'almond_milk',
+    name: 'Almond Milk',
+    emoji: '🌰',
+    type: 'liquid',
+    color: 'bg-stone-100',
     keywords: ['nut milk', 'mylk'],
     primaryNutrient: 'Vitamin E',
     clashList: []
   },
-  { 
-    id: 'oat_milk', 
-    name: 'Oat Milk', 
-    emoji: '🌾', 
-    type: 'liquid', 
-    color: 'bg-stone-50', 
+  {
+    id: 'oat_milk',
+    name: 'Oat Milk',
+    emoji: '🌾',
+    type: 'liquid',
+    color: 'bg-stone-50',
     keywords: ['oats', 'creamy'],
     primaryNutrient: 'Beta-glucan',
     clashList: []
   },
-  { 
-    id: 'yogurt', 
-    name: 'Greek Yogurt', 
-    emoji: '🍦', 
-    type: 'base', 
-    color: 'bg-blue-50', 
+  {
+    id: 'yogurt',
+    name: 'Greek Yogurt',
+    emoji: '🍦',
+    type: 'base',
+    color: 'bg-blue-50',
     keywords: ['yoghurt', 'protein'],
     primaryNutrient: 'Probiotics',
     clashList: ['lemon', 'orange', 'pineapple', 'kiwi']
   },
-  { 
-    id: 'coconut_water', 
-    name: 'Coconut Water', 
-    emoji: '🥥', 
-    type: 'liquid', 
-    color: 'bg-white', 
+  {
+    id: 'coconut_water',
+    name: 'Coconut Water',
+    emoji: '🥥',
+    type: 'liquid',
+    color: 'bg-white',
     keywords: ['coco', 'hydro'],
     primaryNutrient: 'Electrolytes',
     clashList: []
@@ -311,7 +311,7 @@ export const INGREDIENTS: Ingredient[] = [
     id: 'water',
     name: 'Ice Water',
     emoji: '🧊',
-    type: 'liquid', 
+    type: 'liquid',
     color: 'bg-blue-50',
     keywords: ['h2o', 'base'],
     primaryNutrient: 'Hydration',
@@ -391,22 +391,22 @@ export const INGREDIENTS: Ingredient[] = [
   },
 
   // FAT & PROTEIN ADD-ONS (Seeds/Butters)
-  { 
-    id: 'peanut_butter', 
-    name: 'Peanut Butter', 
-    emoji: '🥜', 
-    type: 'fat', 
-    color: 'bg-amber-600', 
+  {
+    id: 'peanut_butter',
+    name: 'Peanut Butter',
+    emoji: '🥜',
+    type: 'fat',
+    color: 'bg-amber-600',
     keywords: ['nut butter', 'pb'],
     primaryNutrient: 'Protein & Fats',
     clashList: []
   },
-  { 
-    id: 'chia_seeds', 
-    name: 'Chia Seeds', 
-    emoji: '⚫', 
-    type: 'fat', 
-    color: 'bg-gray-200', 
+  {
+    id: 'chia_seeds',
+    name: 'Chia Seeds',
+    emoji: '⚫',
+    type: 'fat',
+    color: 'bg-gray-200',
     keywords: ['seeds', 'omega'],
     primaryNutrient: 'Omega-3',
     clashList: []
@@ -415,7 +415,7 @@ export const INGREDIENTS: Ingredient[] = [
     id: 'oats',
     name: 'Rolled Oats',
     emoji: '🥣',
-    type: 'base', 
+    type: 'base',
     color: 'bg-stone-100',
     keywords: ['oatmeal', 'fiber', 'grain'],
     primaryNutrient: 'Fiber (Beta-Glucan)',
@@ -443,52 +443,52 @@ export const INGREDIENTS: Ingredient[] = [
   },
 
   // POWDERS & ADD-ONS
-  { 
-    id: 'espresso', 
-    name: 'Espresso', 
-    emoji: '☕', 
-    type: 'caffeine', 
-    color: 'bg-amber-100', 
+  {
+    id: 'espresso',
+    name: 'Espresso',
+    emoji: '☕',
+    type: 'caffeine',
+    color: 'bg-amber-100',
     keywords: ['coffee', 'caffeine'],
     primaryNutrient: 'Caffeine',
     clashList: ['spinach', 'kale']
   },
-  { 
-    id: 'matcha', 
-    name: 'Matcha', 
-    emoji: '🍵', 
-    type: 'caffeine', 
-    color: 'bg-green-400', 
+  {
+    id: 'matcha',
+    name: 'Matcha',
+    emoji: '🍵',
+    type: 'caffeine',
+    color: 'bg-green-400',
     keywords: ['tea', 'green tea'],
     primaryNutrient: 'L-Theanine',
     clashList: ['spinach']
   },
-  { 
-    id: 'cocoa', 
-    name: 'Raw Cocoa', 
-    emoji: '🍫', 
-    type: 'powder', 
-    color: 'bg-stone-200', 
+  {
+    id: 'cocoa',
+    name: 'Raw Cocoa',
+    emoji: '🍫',
+    type: 'powder',
+    color: 'bg-stone-200',
     keywords: ['chocolate', 'cacao'],
     primaryNutrient: 'Flavonoids',
     clashList: ['milk']
   },
-  { 
-    id: 'protein_powder', 
-    name: 'Whey Protein', 
-    emoji: '💪', 
-    type: 'powder', 
-    color: 'bg-gray-100', 
+  {
+    id: 'protein_powder',
+    name: 'Whey Protein',
+    emoji: '💪',
+    type: 'powder',
+    color: 'bg-gray-100',
     keywords: ['muscle', 'gains'],
     primaryNutrient: 'Protein',
     clashList: ['pineapple']
   },
-  { 
-    id: 'spirulina', 
-    name: 'Spirulina', 
-    emoji: '🦠', 
-    type: 'powder', 
-    color: 'bg-teal-700', 
+  {
+    id: 'spirulina',
+    name: 'Spirulina',
+    emoji: '🦠',
+    type: 'powder',
+    color: 'bg-teal-700',
     keywords: ['algae', 'superfood'],
     primaryNutrient: 'Complete Protein',
     clashList: []
@@ -535,52 +535,52 @@ export const INGREDIENTS: Ingredient[] = [
   },
 
   // SPICES & FLAVORS
-  { 
-    id: 'ginger', 
-    name: 'Ginger', 
-    emoji: '🫚', 
-    type: 'spice', 
-    color: 'bg-yellow-50', 
+  {
+    id: 'ginger',
+    name: 'Ginger',
+    emoji: '🫚',
+    type: 'spice',
+    color: 'bg-yellow-50',
     keywords: ['root', 'spice'],
     primaryNutrient: 'Gingerol',
     clashList: []
   },
-  { 
-    id: 'turmeric', 
-    name: 'Turmeric', 
-    emoji: '🧡', 
-    type: 'spice', 
-    color: 'bg-orange-400', 
+  {
+    id: 'turmeric',
+    name: 'Turmeric',
+    emoji: '🧡',
+    type: 'spice',
+    color: 'bg-orange-400',
     keywords: ['curcumin', 'spice'],
     primaryNutrient: 'Curcumin',
     clashList: []
   },
-  { 
-    id: 'cinnamon', 
-    name: 'Cinnamon', 
-    emoji: '🪵', 
-    type: 'spice', 
+  {
+    id: 'cinnamon',
+    name: 'Cinnamon',
+    emoji: '🪵',
+    type: 'spice',
     color: 'bg-amber-700',
     keywords: ['spice', 'bark'],
     primaryNutrient: 'Cinnamaldehyde',
     clashList: []
   },
-  { 
-    id: 'mint', 
-    name: 'Mint', 
-    emoji: '🌿', 
-    type: 'flavor', 
-    color: 'bg-green-100', 
+  {
+    id: 'mint',
+    name: 'Mint',
+    emoji: '🌿',
+    type: 'flavor',
+    color: 'bg-green-100',
     keywords: ['fresh', 'herb'],
     primaryNutrient: 'Menthol',
     clashList: ['orange']
   },
-  { 
-    id: 'honey', 
-    name: 'Honey', 
-    emoji: '🍯', 
-    type: 'sugar', 
-    color: 'bg-amber-200', 
+  {
+    id: 'honey',
+    name: 'Honey',
+    emoji: '🍯',
+    type: 'sugar',
+    color: 'bg-amber-200',
     keywords: ['sweetener'],
     primaryNutrient: 'Glucose',
     clashList: []
@@ -625,4 +625,43 @@ export const INGREDIENTS: Ingredient[] = [
     primaryNutrient: 'Enzymes',
     clashList: []
   }
+];
+
+export const SALAD_INGREDIENTS: Ingredient[] = [
+  // BASES (Greens)
+  { id: 'romaine', name: 'Romaine Lettuce', emoji: '🥬', type: 'green', color: 'bg-green-100', keywords: ['crunchy', 'base'], primaryNutrient: 'Vitamin A', clashList: [] },
+  { id: 'arugula', name: 'Arugula', emoji: '🌿', type: 'green', color: 'bg-green-200', keywords: ['peppery', 'rocket'], primaryNutrient: 'Nitrates', clashList: [] },
+  { id: 'mixed_greens', name: 'Mixed Greens', emoji: '🥗', type: 'green', color: 'bg-green-50', keywords: ['mesclun', 'soft'], primaryNutrient: 'folate', clashList: [] },
+  { id: 'spinach_salad', name: 'Baby Spinach', emoji: '🍃', type: 'green', color: 'bg-green-300', keywords: ['tender', 'iron'], primaryNutrient: 'Iron', clashList: [] },
+  { id: 'kale_salad', name: 'Chopped Kale', emoji: '🥦', type: 'green', color: 'bg-green-600', keywords: ['tough', 'fiber'], primaryNutrient: 'Vitamin K', clashList: [] },
+  { id: 'quinoa_base', name: 'Quinoa Base', emoji: '🥣', type: 'grain', color: 'bg-amber-100', keywords: ['ancient grain', 'protein'], primaryNutrient: 'Complete Protein', clashList: [] },
+
+  // VEGGIES (Chopped)
+  { id: 'cherry_tomato', name: 'Cherry Tomatoes', emoji: '🍅', type: 'veggie', color: 'bg-red-200', keywords: ['burst', 'sweet'], primaryNutrient: 'Lycopene', clashList: [] },
+  { id: 'cucumber_salad', name: 'Cucumber Slices', emoji: '🥒', type: 'veggie', color: 'bg-green-50', keywords: ['crunch', 'water'], primaryNutrient: 'Hydration', clashList: [] },
+  { id: 'red_onion', name: 'Red Onion', emoji: '🧅', type: 'veggie', color: 'bg-purple-200', keywords: ['sharp', 'zing'], primaryNutrient: 'Quercetin', clashList: [] },
+  { id: 'bell_pepper', name: 'Bell Peppers', emoji: '🫑', type: 'veggie', color: 'bg-red-100', keywords: ['crunch', 'sweet'], primaryNutrient: 'Vitamin C', clashList: [] },
+  { id: 'shredded_carrot', name: 'Shredded Carrot', emoji: '🥕', type: 'veggie', color: 'bg-orange-200', keywords: ['sweet', 'crunch'], primaryNutrient: 'Beta Carotene', clashList: [] },
+  { id: 'roasted_beet', name: 'Roasted Beets', emoji: '🥔', type: 'veggie', color: 'bg-pink-700', keywords: ['earthy', 'sweet'], primaryNutrient: 'Folate', clashList: [] },
+  { id: 'avocado_salad', name: 'Avocado Chunks', emoji: '🥑', type: 'fat', color: 'bg-green-200', keywords: ['creamy', 'fat'], primaryNutrient: 'Monounsat. Fat', clashList: [] },
+
+  // PROTEINS
+  { id: 'grilled_chicken', name: 'Grilled Chicken', emoji: '🍗', type: 'protein', color: 'bg-amber-100', keywords: ['lean', 'meat'], primaryNutrient: 'Protein', clashList: [] },
+  { id: 'tofu_cubes', name: 'Tofu Cubes', emoji: '🧊', type: 'protein', color: 'bg-stone-50', keywords: ['plant', 'soy'], primaryNutrient: 'Complete Protein', clashList: [] },
+  { id: 'chickpeas', name: 'Chickpeas', emoji: '🥔', type: 'protein', color: 'bg-yellow-100', keywords: ['garbanzo', 'fiber'], primaryNutrient: 'Fiber', clashList: [] },
+  { id: 'boiled_egg', name: 'Boiled Egg', emoji: '🥚', type: 'protein', color: 'bg-white', keywords: ['rich', 'filling'], primaryNutrient: 'Choline', clashList: [] },
+  { id: 'feta_cheese', name: 'Feta Cheese', emoji: '🧀', type: 'protein', color: 'bg-white', keywords: ['salty', 'tangy'], primaryNutrient: 'Calcium', clashList: [] },
+
+  // DRESSINGS & OILS
+  { id: 'olive_oil', name: 'Extra Virgin Olive Oil', emoji: '🫒', type: 'oil', color: 'bg-yellow-200', keywords: ['evoo', 'healthy fat'], primaryNutrient: 'Polyphenols', clashList: [] },
+  { id: 'balsamic', name: 'Balsamic Vinegar', emoji: '🍇', type: 'acid', color: 'bg-stone-800', keywords: ['sweet', 'acid'], primaryNutrient: 'Antioxidants', clashList: [] },
+  { id: 'lemon_dressing', name: 'Lemon Vinaigrette', emoji: '🍋', type: 'acid', color: 'bg-yellow-100', keywords: ['fresh', 'zesty'], primaryNutrient: 'Vitamin C', clashList: [] },
+  { id: 'ranch', name: 'Greek Yogurt Ranch', emoji: '🥣', type: 'dressing', color: 'bg-white', keywords: ['creamy', 'herb'], primaryNutrient: 'Probiotics', clashList: [] },
+  { id: 'tahini', name: 'Tahini Dressing', emoji: '🥣', type: 'dressing', color: 'bg-amber-50', keywords: ['sesame', 'nutty'], primaryNutrient: 'Calcium', clashList: [] },
+
+  // TOPPINGS (Crunch)
+  { id: 'croutons', name: 'Multigrain Croutons', emoji: '🍞', type: 'carb', color: 'bg-amber-200', keywords: ['crunch', 'toasted'], primaryNutrient: 'Carbs', clashList: [] },
+  { id: 'sunflower_seeds', name: 'Sunflower Seeds', emoji: '🌻', type: 'seed', color: 'bg-stone-200', keywords: ['crunch', 'nutty'], primaryNutrient: 'Vitamin E', clashList: [] },
+  { id: 'walnut_salad', name: 'Toasted Walnuts', emoji: '🌰', type: 'nut', color: 'bg-amber-700', keywords: ['omega', 'brain'], primaryNutrient: 'Omega-3', clashList: [] },
+  { id: 'dried_cranberries', name: 'Dried Cranberries', emoji: '🍒', type: 'fruit', color: 'bg-red-600', keywords: ['sweet', 'tart'], primaryNutrient: 'Antioxidants', clashList: [] }
 ];

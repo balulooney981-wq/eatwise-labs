@@ -3,7 +3,7 @@ export interface Ingredient {
   id: string;
   name: string;
   emoji: string;
-  type: 'fat' | 'green' | 'fruit' | 'antioxidant' | 'caffeine' | 'powder' | 'spice' | 'base' | 'liquid' | 'sugar' | 'acid' | 'flavor' | 'veggie' | 'nut';
+  type: 'green' | 'veggie' | 'fruit' | 'antioxidant' | 'fat' | 'liquid' | 'base' | 'nut' | 'caffeine' | 'powder' | 'spice' | 'sugar' | 'flavor' | 'acid' | 'protein' | 'grain' | 'oil' | 'dressing' | 'seed' | 'carb';
   color: string;
   keywords?: string[];
   primaryNutrient: string;
@@ -16,7 +16,7 @@ export interface SelectedIngredient extends Ingredient {
 }
 
 export interface SuggestedAction {
-  type: 'add' | 'remove' | 'swap'; 
+  type: 'add' | 'remove' | 'swap';
   ingredientId: string;
   label: string;
   scoreImpact: string;
