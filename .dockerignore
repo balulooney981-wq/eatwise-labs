@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+.firebase
+.firebaserc
+firebase.json
+.env.local
+.DS_Store
+coverage

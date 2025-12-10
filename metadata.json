@@ -1,0 +1,7 @@
+{
+  "name": "EatWise Labs",
+  "description": "An interactive bio-availability simulator where users mix ingredients to discover AI-analyzed health benefits.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
