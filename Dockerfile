@@ -21,4 +21,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Cloud Run expects port 8080
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "echo \"window.env = { VITE_GEMINI_API_KEY: '$VITE_GEMINI_API_KEY' };\" > /usr/share/nginx/html/config.js && nginx -g 'daemon off;'"]

@@ -44,8 +44,8 @@ export const analyzeSmoothie = async (
 ): Promise<SimulationResult> => {
   try {
     // enhanced key retrieval for Vite context
-    // @ts-ignore - Vite types might be missing
-    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
+    // @ts-ignore - Vite types might be missing, and window.env might not exist
+    const apiKey = (window as any).env?.VITE_GEMINI_API_KEY || import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       console.warn("⚠️ NO API KEY DETECTED");
@@ -196,7 +196,7 @@ export const analyzeSmoothie = async (
 export const analyzeImageForIngredients = async (base64Image: string): Promise<string[]> => {
   try {
     // @ts-ignore
-    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = (window as any).env?.VITE_GEMINI_API_KEY || import.meta.env?.VITE_GEMINI_API_KEY || process.env.API_KEY || process.env.GEMINI_API_KEY;
     if (!apiKey) return [];
 
     const ai = new GoogleGenAI({ apiKey: apiKey });
