@@ -661,6 +661,9 @@ const App: React.FC = () => {
       </main>
 
 
+      <footer className="w-full text-center py-4 text-[10px] text-gray-300">
+        v2.0 • Salad Mode Enabled 🥗
+      </footer>
     </div>
   );
 };
