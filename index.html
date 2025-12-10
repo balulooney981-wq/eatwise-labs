@@ -29,7 +29,12 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdfa 100%);
+            background-color: #ffffff;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(152, 100%, 93%, 0.6) 0px, transparent 50%),
+                radial-gradient(at 50% 10%, hsla(135, 100%, 96%, 0.8) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(168, 100%, 93%, 0.6) 0px, transparent 50%);
+            background-attachment: fixed;
             min-height: 100vh;
             min-height: 100dvh;
             padding-top: env(safe-area-inset-top);
